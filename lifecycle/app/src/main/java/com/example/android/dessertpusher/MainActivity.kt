@@ -32,6 +32,7 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
 
     private var revenue = 0
     private var dessertsSold = 0
+    var dessertTimer = DessertTimer()
 
     // Contains all the views
     private lateinit var binding: ActivityMainBinding
@@ -81,6 +82,13 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
         binding.dessertButton.setImageResource(currentDessert.imageId)
     }
 
+    override fun onStart() {
+        super.onStart()
+        dessertTimer.startTimer()
+        Timber.i("onStart Called")
+    }
+
+
     override fun onDestroy() {
         super.onDestroy()
         Timber.i("onDestroy methods called")
@@ -93,6 +101,7 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
 
     override fun onResume() {
         super.onResume()
+        dessertsSold = 0
         Timber.i("onResume methods called")
     }
 
@@ -103,6 +112,7 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
 
     override fun onStop() {
         super.onStop()
+        dessertTimer.stopTimer()
         Timber.i("onStop methods called")
     }
 
