@@ -74,6 +74,15 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
             onDessertClicked()
         }
 
+        if (savedInstanceState != null) {
+            revenue = savedInstanceState.getInt("key_revenue")
+            dessertsSold= savedInstanceState.getInt("key_desserts_sold")
+            Timber.i("data loaded from savedInstanceState")
+            showCurrentDessert()
+        } else {
+            Timber.i("savedInstanceState is unavailable")
+        }
+
         // Set the TextViews to the right values
         binding.revenue = revenue
         binding.amountSold = dessertsSold
@@ -112,6 +121,16 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
     override fun onStop() {
         super.onStop()
         Timber.i("onStop methods called")
+    }
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putInt("key_revenue", revenue)
+        outState.putInt("key_desserts_sold", dessertsSold)
+        Timber.i("onSaveInstanceState mothod called")
+    }
+    override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
+        super.onRestoreInstanceState(savedInstanceState)
+        Timber.i("onRestoreInstanceState Called")
     }
 
     /**
