@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">DoceRoller</string>
+    <string name="roll">Roll it right now</string>
+    <string name="hello_text">Hello user:)</string>
+</resources>
