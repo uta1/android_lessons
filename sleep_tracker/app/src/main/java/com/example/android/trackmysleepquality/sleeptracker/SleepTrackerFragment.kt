@@ -17,12 +17,15 @@
 package com.example.android.trackmysleepquality.sleeptracker
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import com.example.android.trackmysleepquality.R
 import com.example.android.trackmysleepquality.database.SleepDatabase
 import com.example.android.trackmysleepquality.databinding.FragmentSleepTrackerBinding
@@ -41,6 +44,7 @@ class SleepTrackerFragment : Fragment() {
      */
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
+        Log.i("SleepTrackerFragment", "create fragment")
 
         // Get a reference to the binding object and inflate the fragment views.
         val binding: FragmentSleepTrackerBinding = DataBindingUtil.inflate(
@@ -57,6 +61,26 @@ class SleepTrackerFragment : Fragment() {
 
         binding.setLifecycleOwner(this)
 
+
+        sleepTrackerViewModel.navigateToSleepQuality.observe(this, Observer { night ->
+            night?.let {
+                this.findNavController().navigate(
+                        SleepTrackerFragmentDirections
+                                .actionSleepTrackerFragmentToSleepQualityFragment(night.nightId))
+                sleepTrackerViewModel.doneNavigating()
+            }
+        })
+        binding.stopButton.visibility = View.INVISIBLE
+        binding.stopButton.setOnClickListener {
+            sleepTrackerViewModel.onStopTracking()
+            binding.startButton.visibility = View.VISIBLE
+            binding.stopButton.visibility = View.INVISIBLE
+        }
+        binding.startButton.setOnClickListener{
+            sleepTrackerViewModel.onStartTracking()
+            binding.stopButton.visibility = View.VISIBLE
+            binding.startButton.visibility = View.INVISIBLE
+        }
 
         return binding.root
     }
