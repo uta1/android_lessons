@@ -20,6 +20,8 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
+const val NO_SLEEP_QUALITY = -1
+
 @Entity(tableName = "daily_sleep_quality_table")
 data class SleepNight(
         @PrimaryKey(autoGenerate = true)
@@ -32,5 +34,5 @@ data class SleepNight(
         var endTimeMilli: Long = startTimeMilli,
 
         @ColumnInfo(name = "quality_rating")
-        var sleepQuality: Int = -1
+        var sleepQuality: Int = NO_SLEEP_QUALITY
 )
